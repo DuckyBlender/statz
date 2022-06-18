@@ -41,7 +41,7 @@ async def on_ready():
             f"\n"
             f"=== LIST OF GUILDS ===",
             f"{guild_string}"
-            f"======================="
+            f"======================"
             f"\n"
         ]))
         update_stats.start()
@@ -84,9 +84,9 @@ async def update_stats():
     await uzytkownicy.edit(name=f"👥・Użytkownicy: {stats['members']}")
     await online.edit(name=f"👀・Online: {stats['online']}")
     await maxonline.edit(name=f"🔥・Max Online: {stats['maxonline']}")
-    await ilewgulagu.edit(name=f"🚫・Gulag count: {stats['gulagcount']}")
-    await najnowszyczlonek.edit(name=f"👋・Nowy: {stats['najnowszy']}")
-    await lastupdated.edit(name=f"📆・{datetime.now().strftime('%H:%M:%S')}")
+    await ilewgulagu.edit(name=f"💀・Gulag: {stats['gulagcount']}")
+    await najnowszyczlonek.edit(name=f"👋・{stats['najnowszy']}")
+    await lastupdated.edit(name=f"🔁・{datetime.now().strftime('%H:%M:%S')}")
 
     
 
