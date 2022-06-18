@@ -47,7 +47,7 @@ async def on_ready():
         update_stats.start()
 
 # == UPDATE STATS ===
-@tasks.loop(minutes=10.0)
+@tasks.loop(minutes=10)
 async def update_stats():
     print("Updating stats...")
     await bot.wait_until_ready()
@@ -84,56 +84,21 @@ async def update_stats():
     await uzytkownicy.edit(name=f"👥・Użytkownicy: {stats['members']}")
     await online.edit(name=f"👀・Online: {stats['online']}")
     await maxonline.edit(name=f"🔥・Max Online: {stats['maxonline']}")
-    await ilewgulagu.edit(name=f"🚫・Gulag count: {stats['gulagcount']}")
-    await najnowszyczlonek.edit(name=f"👋・Nowy: {stats['najnowszy']}")
-    await lastupdated.edit(name=f"📆・{datetime.now().strftime('%H:%M:%S')}")
+    await ilewgulagu.edit(name=f"💀・Gulag: {stats['gulagcount']}")
+    await najnowszyczlonek.edit(name=f"👋・{stats['najnowszy']}")
+    await lastupdated.edit(name=f"🔁・{datetime.now().strftime('%H:%M:%S')}")
 
     
 
     activity = discord.Activity(name=f"over {len(bot.guilds)} guilds and {len(bot.users)} users!", type=discord.ActivityType.watching)
     await bot.change_presence(activity=activity)
 
-    print("Stats updated!")
+    print(f"Stats updated! [{datetime.now().strftime('%H:%M:%S')}]")
 
-# === COMMANDS ===
-@bot.command()
-async def gulag(ctx, member: discord.Member):
-    if member.id == ctx.author.id:
-        await ctx.send("Nie możesz gulagować sam siebie!")
-        return
-    if member.id == bot.user.id:
-        await ctx.send("Nie możesz gulagować mnie!")
-        return
-    await member.add_roles(discord.utils.get(ctx.guild.roles, id=gulagroleid))
-    await ctx.send(f"{member.mention} został gulagowany!")
-
-@bot.command()
-async def ungulag(ctx, member: discord.Member):
-    await member.remove_roles(discord.utils.get(ctx.guild.roles, id=gulagroleid))
-    await ctx.send(f"{member.mention} został odgulagowany!")
-
-@bot.command()
-async def gulaglist(ctx):
-    gulagrole = discord.utils.get(ctx.guild.roles, id=gulagroleid)
-    gulaglist = gulagrole.members
-    gulaglist = [x.mention for x in gulaglist]
-    await ctx.send("\n".join(gulaglist))
-
-@bot.command()
-async def lastmessage(ctx):
-    await ctx.send(f"`{lastMessage}` sent by {lastMessageAuthor}")
-
+    # Kill the bot (for crontab)
+#    await bot.logout()
 
 # === EVENTS ===
-@bot.event
-async def on_message_delete(message):
-    global lastMessage, lastMessageAuthor
-    if message.author.bot:
-        return
-
-    lastMessage = message.content
-    lastMessageAuthor = message.author
-
 @bot.event
 async def on_member_join(member):
     with open('stats.json', 'r') as f:
