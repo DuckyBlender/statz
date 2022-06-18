@@ -47,7 +47,7 @@ async def on_ready():
         update_stats.start()
 
 # == UPDATE STATS ===
-@tasks.loop(minutes=10.0)
+@tasks.loop(minutes=10)
 async def update_stats():
     print("Updating stats...")
     await bot.wait_until_ready()
@@ -94,6 +94,9 @@ async def update_stats():
     await bot.change_presence(activity=activity)
 
     print(f"Stats updated! [{datetime.now().strftime('%H:%M:%S')}]")
+
+    # Kill the bot (for crontab)
+#    await bot.logout()
 
 # === EVENTS ===
 @bot.event
