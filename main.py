@@ -41,7 +41,7 @@ async def on_ready():
             f"\n"
             f"=== LIST OF GUILDS ===",
             f"{guild_string}"
-            f"======================="
+            f"======================"
             f"\n"
         ]))
         update_stats.start()
