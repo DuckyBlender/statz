@@ -3,14 +3,13 @@ from discord.ext import commands, tasks
 import json, time, asyncio
 from datetime import datetime
 
-
 description = "A simple statistics bot made by DuckyBlender#0001"
 
 token = open('token.txt', 'r').read()
 
 intents = discord.Intents().all()
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or('>'), description=description, intents=intents)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('.'), description=description, intents=intents)
 
 uzytkownicy_id = 986637437788909668
 online_id = 987293504298450984
