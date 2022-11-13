@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or('.'), description=d
 uzytkownicy_id = 986637437788909668
 online_id = 987293504298450984
 maxonline_id = 986637678940389396
-najnowszyczlonek_id = 987808298269048884
+najnowszyczlonek_id = 1002606503909412995
 ilewgulagu_id = 986638188216987670
 lastupdated_id = 987760403884953620
 
@@ -39,7 +39,7 @@ async def on_ready():
             f"-> {len(set(bot.get_all_members()))} unique members ({sum(g.member_count for g in bot.guilds)} total)",
             f"\n"
             f"=== LIST OF GUILDS ===",
-            f"{guild_string}"
+            f"{guild_string}\n"
             f"======================"
             f"\n"
         ]))
