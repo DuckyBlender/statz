@@ -4,9 +4,7 @@ import json, time, asyncio
 from datetime import datetime
 
 description = "A simple statistics bot made by DuckyBlender#0001"
-
 token = open('token.txt', 'r').read()
-
 intents = discord.Intents().all()
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or('.'), description=description, intents=intents)
