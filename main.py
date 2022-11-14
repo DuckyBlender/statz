@@ -57,11 +57,21 @@ async def update_stats():
 
     stats['members'] = len(set(bot.get_all_members()))
 
+    # Get online members excluding bots
+    onlineCount = 0
+    for member in bot.get_all_members():
+        if not member.bot and member.status != discord.Status.offline:
+            onlineCount += 1
+    print(f"Online: {onlineCount}")
+    stats['online'] = onlineCount
+    
     onlineCount = 0
     for x in bot.get_all_members():
         if x.status != discord.Status.offline:
             onlineCount += 1
-    stats['online'] = onlineCount
+    
+    # Remove bots from online count
+    onlineCount = onlineCount
 
     if stats['online'] > stats['maxonline']:
         stats['maxonline'] = stats['online']
