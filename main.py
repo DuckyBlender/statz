@@ -55,23 +55,18 @@ async def update_stats():
     with open('stats.json', 'r') as f:
         stats = json.load(f)
 
-    stats['members'] = len(set(bot.get_all_members()))
+    memberCount = 0
+    for x in bot.get_all_members():
+        if x.bot == False:
+            memberCount += 1
+    stats['members'] = memberCount
 
     # Get online members excluding bots
     onlineCount = 0
     for member in bot.get_all_members():
         if not member.bot and member.status != discord.Status.offline:
             onlineCount += 1
-    print(f"Online: {onlineCount}")
     stats['online'] = onlineCount
-    
-    onlineCount = 0
-    for x in bot.get_all_members():
-        if x.status != discord.Status.offline:
-            onlineCount += 1
-    
-    # Remove bots from online count
-    onlineCount = onlineCount
 
     if stats['online'] > stats['maxonline']:
         stats['maxonline'] = stats['online']
@@ -81,7 +76,7 @@ async def update_stats():
     
     with open('stats.json', 'w') as f:
         json.dump(stats, f, indent=4)
-
+    
     uzytkownicy = bot.get_channel(uzytkownicy_id)
     online = bot.get_channel(online_id)
     maxonline = bot.get_channel(maxonline_id)
@@ -89,7 +84,7 @@ async def update_stats():
     ilewgulagu = bot.get_channel(ilewgulagu_id)
     lastupdated = bot.get_channel(lastupdated_id)
 
-    # Send stats to name channel
+    # Update stats in discord
     await uzytkownicy.edit(name=f"👥・Użytkownicy: {stats['members']}")
     await online.edit(name=f"👀・Online: {stats['online']}")
     await maxonline.edit(name=f"🔥・Max Online: {stats['maxonline']}")
@@ -102,7 +97,7 @@ async def update_stats():
     activity = discord.Activity(name=f"over {len(bot.guilds)} guilds and {len(bot.users)} users!", type=discord.ActivityType.watching)
     await bot.change_presence(activity=activity)
 
-    print(f"Stats updated! [{datetime.now().strftime('%H:%M:%S')}]")
+    print(f"Stats updated! [{datetime.now().strftime('%H:%M:%S')}]\nMembers: {stats['members']}\nOnline: {stats['online']}\nMax Online: {stats['maxonline']}\nGulag: {stats['gulagcount']}")
 
     # Kill the bot (for crontab)
 #    await bot.logout()
